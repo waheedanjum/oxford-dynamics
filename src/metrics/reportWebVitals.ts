@@ -1,4 +1,5 @@
-import { Metric, onCLS, onINP, onLCP } from 'web-vitals'
+import type { Metric } from 'web-vitals'
+import { onCLS, onINP, onLCP } from 'web-vitals'
 
 type Reporter = (metric: Metric) => void
 

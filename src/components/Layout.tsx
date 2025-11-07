@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import { NavLink } from 'react-router-dom'
 
 const navItems = [
@@ -39,9 +39,7 @@ function Layout({ children }: LayoutProps) {
         {children}
       </main>
 
-      <footer className="app-footer">
-        <small>Telemetry updated in real-time - Built with Vite + React</small>
-      </footer>
+      <footer className="app-footer" />
     </div>
   )
 }

@@ -4,11 +4,12 @@ import { useMissionStore } from '../store/missionStore'
 
 function Missions() {
   const { launches, status, error, refresh } = useUpcomingLaunches()
-  const { pinnedMissionIds, togglePin, selectMission } = useMissionStore((state) => ({
-    pinnedMissionIds: state.pinnedMissionIds,
-    togglePin: state.togglePin,
-    selectMission: state.selectMission,
-  }))
+  // Use individual selectors to avoid returning a new object each render which
+  // can cause getSnapshot to change on every subscription and trigger an
+  // infinite update loop. See Dashboard for rationale.
+  const pinnedMissionIds = useMissionStore((s) => s.pinnedMissionIds)
+  const togglePin = useMissionStore((s) => s.togglePin)
+  const selectMission = useMissionStore((s) => s.selectMission)
 
   return (
     <section className="panel">

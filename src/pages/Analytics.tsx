@@ -4,13 +4,13 @@ import { useMissionStore } from '../store/missionStore'
 
 function Analytics() {
   const { launches } = useUpcomingLaunches()
-  const { pinnedMissionIds, readinessByMission, ensureReadiness, setReadiness } =
-    useMissionStore((state) => ({
-      pinnedMissionIds: state.pinnedMissionIds,
-      readinessByMission: state.readinessByMission,
-      ensureReadiness: state.ensureReadiness,
-      setReadiness: state.setReadiness,
-    }))
+  // Avoid returning a new object from the selector — select values individually
+  // to keep snapshot references stable and prevent the "getSnapshot should be
+  // cached" / infinite update loop.
+  const pinnedMissionIds = useMissionStore((s) => s.pinnedMissionIds)
+  const readinessByMission = useMissionStore((s) => s.readinessByMission)
+  const ensureReadiness = useMissionStore((s) => s.ensureReadiness)
+  const setReadiness = useMissionStore((s) => s.setReadiness)
 
   const trackedMissions = useMemo(
     () => launches.filter((launch) => pinnedMissionIds.includes(launch.id)),

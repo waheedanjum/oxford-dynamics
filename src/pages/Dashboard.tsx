@@ -6,14 +6,16 @@ import { useMissionStore } from '../store/missionStore'
 
 function Dashboard() {
   const { launches, status, error, nextLaunch, refresh } = useUpcomingLaunches()
-  const { pinnedMissionIds, togglePin, ensureReadiness, selectedMissionId, selectMission } =
-    useMissionStore((state) => ({
-      pinnedMissionIds: state.pinnedMissionIds,
-      togglePin: state.togglePin,
-      ensureReadiness: state.ensureReadiness,
-      selectedMissionId: state.selectedMissionId,
-      selectMission: state.selectMission,
-    }))
+  // Use individual selectors instead of returning a new object from a single
+  // selector. Returning an object literal causes a new reference on every
+  // snapshot which can trigger React's useSyncExternalStore to re-subscribe
+  // repeatedly and lead to the "getSnapshot should be cached" / infinite
+  // update loop. Selecting values individually prevents that.
+  const pinnedMissionIds = useMissionStore((s) => s.pinnedMissionIds)
+  const togglePin = useMissionStore((s) => s.togglePin)
+  const ensureReadiness = useMissionStore((s) => s.ensureReadiness)
+  const selectedMissionId = useMissionStore((s) => s.selectedMissionId)
+  const selectMission = useMissionStore((s) => s.selectMission)
 
   const highlightedMission = useMemo(() => {
     if (!launches.length) {
