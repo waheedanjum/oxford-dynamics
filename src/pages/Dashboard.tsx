@@ -22,17 +22,19 @@ function Dashboard() {
       return undefined
     }
     if (selectedMissionId) {
-      return launches.find((launch) => launch.id === selectedMissionId) ?? launches[0]
+      return launches.find((launch) => launch.id === selectedMissionId)
     }
     if (pinnedMissionIds.length > 0) {
-      return launches.find((launch) => pinnedMissionIds.includes(launch.id)) ?? launches[0]
+      return launches.find((launch) => pinnedMissionIds.includes(launch.id))
     }
     return launches[0]
   }, [launches, pinnedMissionIds, selectedMissionId])
 
-  const readinessScore = highlightedMission
-    ? ensureReadiness(highlightedMission.id)
-    : undefined
+  const readinessScore = useMemo(() => {
+    return highlightedMission
+      ? ensureReadiness(highlightedMission.id)
+      : undefined
+  }, [highlightedMission, ensureReadiness])
 
   return (
     <section className="panel-grid">
