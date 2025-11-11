@@ -31,6 +31,49 @@ App.tsx
 - **State**: `missionStore` (Zustand + persistence) centralizes pinned missions, the focused launch, and readiness metrics so Dashboard, Manifest, and Analytics stay in lockstep.
 - **Data flow**: `useUpcomingLaunches` fetches and caches telemetry, components render declaratively, and user actions push updates to the store-no prop-drilling.
 
+## Build & run (local)
+
+Quick commands to run the project after cloning:
+
+```bash
+# clone
+git clone https://github.com/waheedanjum/oxford-dynamics.git
+cd oxford-dynamics
+
+# install (recommended: CI-style install)
+npm ci
+
+# dev server (Vite)
+npm run dev -- --host
+
+# run tests once (CI friendly)
+npm run test -- --run
+
+# build production assets
+npm run build
+
+# preview production build locally
+npm run preview
+```
+
+Notes / troubleshooting
+- If `npm ci` fails with peer-dependency errors for dev tooling (testing libs), either install without dev dependencies:
+
+```bash
+npm ci --omit=dev
+```
+
+or allow legacy peer resolution (local/dev only):
+
+```bash
+npm ci --legacy-peer-deps
+```
+
+- The project requires internet access at runtime (it fetches live launch data). If port 5173 is in use, pass `--port <number>` to the dev command.
+- Recommended Node: 18+ (use an LTS node version manager like nvm or fnm).
+
+If you want, I can add a Dockerfile or a GitHub Actions workflow that runs the tests and build on every PR.
+
 ## Snippets & reasoning
 
 ### Custom hook - resilient API polling
